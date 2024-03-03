@@ -62,7 +62,8 @@ N 260 150 260 280 {
 lab=VSUB}
 N -380 90 260 90 {
 lab=inx}
-N -380 -160 -380 90 {}
+N -380 -160 -380 90 {
+lab=inx}
 C {devices/vsource.sym} -600 250 0 0 {name=VVcm value="DC \{Vcm\}" savecurrent=false}
 C {devices/lab_pin.sym} -740 280 0 0 {name=p1 sig_type=std_logic lab=VSUB}
 C {devices/vsource.sym} -490 250 0 0 {name=Vena value="DC [\{ena\} * \{Vdvdd\}]" savecurrent=false}
@@ -93,9 +94,9 @@ C {devices/code_shown.sym} -1000 -580 0 0 {name=SETUP only_toplevel=false value=
 
 .include \{DUT_path\}
 
-.lib \{PDK_ROOT\}/\{PDK\}/libs.tech/combined/sky130.lib.spice \{corner\}
+*.lib \{PDK_ROOT\}/\{PDK\}/libs.tech/combined/sky130.lib.spice \{corner\}
 
-.option TEMP=\{temperature\}
+*.option TEMP=\{temperature\}
 * Flag unsafe operating conditions (exceeds models' specified limits)
 .option warn=1
 "}

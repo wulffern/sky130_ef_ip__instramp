@@ -32,19 +32,22 @@ VIEW=Sch
 CELL=CNR_OTA
 LIB =CNR_OTA_SKY130NM
 OPT=
+CELL=
+
 
 
 
 netlist:
 	test -f ${TBDIR}/${TB}.sch
 	xschem -q -x -b -s -n --tcl "set netlist_dir ${PWD};" ${TBDIR}/${TB}.sch
-
+	cat ${TB}.spice |perl -ne "if(m/^XDUT/){print \".include ../xdut.spi\n\"}else{print $$_}" > ${TB}.spi
+	perl ../../tech/script/genxdut ../../netlist/schem/sky130_ef_ip__instramp.spice sky130_ef_ip__instramp
 
 test:
 	${MAKE} typical OPT="Debug"
 
 typical: netlist
-	cicsim run --name ${VIEW}_typical ${TB} ${OPT} ${VIEW} Gt Ktt Tt Vt
+	cicsim run --replace replace.yaml --name ${VIEW}_typical ${TB} ${OPT} ${VIEW} Gt Att Tt Vt
 
 slow: netlist
 	cicsim run --name ${VIEW}_slow ${TB} ${OPT} ${VIEW} Gt Kss "Th,Tl" Vl

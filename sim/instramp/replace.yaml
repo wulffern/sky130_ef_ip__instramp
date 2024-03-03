@@ -1,0 +1,14 @@
+DUT_path: ../../../netlist/schem/sky130_ef_ip__instramp.spice
+PDK_ROOT: /opt/pdk/share/pdk
+PDK: sky130A
+corner: tt
+Vcm: 1.65
+Vdvdd: 1.8
+Vvss: 0
+Rout: 100
+Cout: 1f
+Vvdd: 3.3
+ena : 1
+simpath: "output_{cictestbench}"
+filename: "{cicname}"
+N: "{cicindex}"

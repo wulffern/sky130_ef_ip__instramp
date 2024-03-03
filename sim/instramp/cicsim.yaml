@@ -4,3 +4,6 @@ options:
 corner:
   Lay: ''
   Sch: ''
+ngspice:
+  library: sky130_ef_ip
+  cell: sky130_ef_ip__instramp
