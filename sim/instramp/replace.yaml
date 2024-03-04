@@ -9,6 +9,7 @@ Rout: 100
 Cout: 1f
 Vvdd: 3.3
 ena : 1
-simpath: "output_{cictestbench}"
+simpath: "./"
 filename: "{cicname}"
 N: "{cicindex}"
+risetime: 50e-3

@@ -79,11 +79,14 @@ value=\{Cout\}}
 C {devices/lab_pin.sym} 550 -80 0 1 {name=p27 sig_type=std_logic lab=VSUB}
 C {devices/lab_pin.sym} -490 -20 0 1 {name=p29 sig_type=std_logic lab=ena}
 C {devices/vsource.sym} -720 250 0 0 {name=Vvdd value="DC \{Vvdd\}" savecurrent=false}
-C {devices/code_shown.sym} -1310 -360 0 0 {name=CONTROL only_toplevel=false value=".control
+C {devices/code_shown.sym} -1310 -360 0 0 {name=CONTROL only_toplevel=false value="
+.save all
+.control
 * Step function applied at time 100ns, save transient data
 tran 10n 500n
 set wr_singlescale
 wrdata \{simpath\}/\{filename\}_\{N\}.data V(out) V(inp)
+write
 quit
 .endc
 "}
@@ -93,11 +96,12 @@ C {devices/code_shown.sym} -1000 -580 0 0 {name=SETUP only_toplevel=false value=
 
 .include \{DUT_path\}
 
-.lib \{PDK_ROOT\}/\{PDK\}/libs.tech/combined/sky130.lib.spice \{corner\}
+*.lib \{PDK_ROOT\}/\{PDK\}/libs.tech/combined/sky130.lib.spice \{corner\}
 
-.option TEMP=\{temperature\}
+*.option TEMP=\{temperature\}
 * Flag unsafe operating conditions (exceeds models' specified limits)
 .option warn=1
+
 "}
 C {devices/res.sym} -420 310 0 0 {name=RSUB
 value=0.01
