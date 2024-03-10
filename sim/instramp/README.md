@@ -3,7 +3,10 @@
 
 Both cace and cicsim are simulation orchestration tools. The venn diagram
 overlap between cace and cicsim is large, and it would be nice if cicsim
-supported some of the replcements used in cace 
+supported some of the replcements used in cace, so in the latest cicsim I've
+added expression and replacement options. See
+<https://github.com/wulffern/cicsim/pull/21> for details
+
 
 
 ## Cloning and Setup
