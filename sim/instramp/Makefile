@@ -73,25 +73,25 @@ typical: netlist
 	cicsim run --replace replace.yaml --name ${VIEW}_typical ${TBO} ${OPT} ${VIEW} Gt Att Tt Vt
 
 slow: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_slow ${TBO} ${OPT} ${VIEW} Gt Kss "Th,Tl" Vl
+	cicsim run --replace replace.yaml --name ${VIEW}_slow ${TBO} ${OPT} ${VIEW} Gt Ass "Th,Tl" Vl
 
 fast: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_fast ${TBO} ${OPT} ${VIEW} Gt Kff "Th,Tl" Vh
+	cicsim run --replace replace.yaml --name ${VIEW}_fast ${TBO} ${OPT} ${VIEW} Gt Aff "Th,Tl" Vh
 
 tfs: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_tfs ${TBO} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt,Th,Tl" "Vt,Vl,Vh"
+	cicsim run --replace replace.yaml --name ${VIEW}_tfs ${TBO} ${OPT} ${VIEW} Gt "Att,Ass,Aff" "Tt,Th,Tl" "Vt,Vl,Vh"
 
 etc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_etc ${TBO} ${OPT} ${VIEW} Gt "Kss,Kff,Ksf,Kfs" "Th,Tl" "Vl,Vh"
+	cicsim run --replace replace.yaml --name ${VIEW}_etc ${TBO} ${OPT} ${VIEW} Gt "Ass,Aff,Asf,Afs" "Th,Tl" "Vl,Vh"
 
 mc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_mc --count 10 ${TBO} ${OPT} ${VIEW} Gt "Kttmm" "Tt" "Vt"
+	cicsim run --replace replace.yaml --name ${VIEW}_mc --count 10 ${TBO} ${OPT} ${VIEW} Gt "Attmm" "Tt" "Vt"
 
 ntc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_ntc ${TBO} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt" Vt
+	cicsim run --replace replace.yaml --name ${VIEW}_ntc ${TBO} ${OPT} ${VIEW} Gt "Att,Ass,Aff" "Tt" Vt
 
 temp: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TBO} ${OPT} ${VIEW} Gt "Ktt" "Tt,Th,Tl" Vt
+	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TBO} ${OPT} ${VIEW} Gt "Att" "Tt,Th,Tl" Vt
 
 summary:
 	cicsim summary --output "README.md"
