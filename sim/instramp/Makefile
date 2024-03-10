@@ -34,41 +34,64 @@ LIB =CNR_OTA_SKY130NM
 OPT=
 CELL=
 
+CORNER=typical
 
+TBO=$(subst _,,${TB})
+
+TBS =$(shell ls -1 ../../cace/*.sch)
+TBS1=$(subst ../../cace/,,${TBS})
+TBS2=$(subst .sch,,${TBS1})
+
+
+TFUNC= eqvnoise gbw \
+	input_offset propdelay  slew_fall slew_rise \
+	transient voltage_out avo dccurrent_dyn dccurrent_vdd
+
+#-No Func
+# cmrr: Can't handle VVcm
+# psrr: Can't handle {Vvdd|mimimum}
+
+
+all:
+	$(foreach tb, ${TFUNC}, ${MAKE} ${CORNER} TB=${tb}; )
 
 
 netlist:
 	test -f ${TBDIR}/${TB}.sch
 	xschem -q -x -b -s -n --tcl "set netlist_dir ${PWD};" ${TBDIR}/${TB}.sch
-	cat ${TB}.spice |perl -ne "if(m/^XDUT/){print \".include ../xdut.spi\n\"}else{print $$_}" > ${TB}.spi
+#Replace dut information, .lib PDK root, and temperature
+	cat ${TB}.spice |perl -ne "if(m/^XDUT/){print \".include ../xdut.spi\n\"}else{print $$_}"| \
+	grep -v "PDK_ROOT"|grep -v temperature|  \
+	perl ../../tech/script/removeplus > ${TBO}.spi
+
 	perl ../../tech/script/genxdut ../../netlist/schem/sky130_ef_ip__instramp.spice sky130_ef_ip__instramp
 
 test:
 	${MAKE} typical OPT="Debug"
 
 typical: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_typical ${TB} ${OPT} ${VIEW} Gt Att Tt Vt
+	cicsim run --replace replace.yaml --name ${VIEW}_typical ${TBO} ${OPT} ${VIEW} Gt Att Tt Vt
 
 slow: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_slow ${TB} ${OPT} ${VIEW} Gt Kss "Th,Tl" Vl
+	cicsim run --replace replace.yaml --name ${VIEW}_slow ${TBO} ${OPT} ${VIEW} Gt Kss "Th,Tl" Vl
 
 fast: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_fast ${TB} ${OPT} ${VIEW} Gt Kff "Th,Tl" Vh
+	cicsim run --replace replace.yaml --name ${VIEW}_fast ${TBO} ${OPT} ${VIEW} Gt Kff "Th,Tl" Vh
 
 tfs: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_tfs ${TB} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt,Th,Tl" "Vt,Vl,Vh"
+	cicsim run --replace replace.yaml --name ${VIEW}_tfs ${TBO} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt,Th,Tl" "Vt,Vl,Vh"
 
 etc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_etc ${TB} ${OPT} ${VIEW} Gt "Kss,Kff,Ksf,Kfs" "Th,Tl" "Vl,Vh"
+	cicsim run --replace replace.yaml --name ${VIEW}_etc ${TBO} ${OPT} ${VIEW} Gt "Kss,Kff,Ksf,Kfs" "Th,Tl" "Vl,Vh"
 
 mc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_mc --count 10 ${TB} ${OPT} ${VIEW} Gt "Kttmm" "Tt" "Vt"
+	cicsim run --replace replace.yaml --name ${VIEW}_mc --count 10 ${TBO} ${OPT} ${VIEW} Gt "Kttmm" "Tt" "Vt"
 
 ntc: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_ntc ${TB} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt" Vt
+	cicsim run --replace replace.yaml --name ${VIEW}_ntc ${TBO} ${OPT} ${VIEW} Gt "Ktt,Kss,Kff" "Tt" Vt
 
 temp: netlist
-	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TB} ${OPT} ${VIEW} Gt "Ktt" "Tt,Th,Tl" Vt
+	cicsim run --replace replace.yaml --name ${VIEW}_temp ${TBO} ${OPT} ${VIEW} Gt "Ktt" "Tt,Th,Tl" Vt
 
 summary:
 	cicsim summary --output "README.md"

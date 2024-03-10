@@ -9,7 +9,9 @@ Rout: 100
 Cout: 1f
 Vvdd: 3.3
 ena : 1
-simpath: "./"
+simpath: "."
 filename: "{cicname}"
 N: "{cicindex}"
+frequency: 1e3
 risetime: 50e-3
+Vdiff: 0

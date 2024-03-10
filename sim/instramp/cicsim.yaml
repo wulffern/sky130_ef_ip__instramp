@@ -1,5 +1,5 @@
 options:
-  useTmpDir: True
+  #useTmpDir: True
   #sha: True
 corner:
   Lay: ''

@@ -94,9 +94,9 @@ C {devices/code_shown.sym} -1000 -580 0 0 {name=SETUP only_toplevel=false value=
 
 .include \{DUT_path\}
 
-*.lib \{PDK_ROOT\}/\{PDK\}/libs.tech/combined/sky130.lib.spice \{corner\}
+.lib \{PDK_ROOT\}/\{PDK\}/libs.tech/combined/sky130.lib.spice \{corner\}
 
-*.option TEMP=\{temperature\}
+.option TEMP=\{temperature\}
 * Flag unsafe operating conditions (exceeds models' specified limits)
 .option warn=1
 "}
